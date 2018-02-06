@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-
 get "/mod_front" => "tweets#mod_front"
 
 get "/filter_tweets" => "tweets#filter_tweets"
@@ -24,7 +23,6 @@ get "/moderator" => 'tweets#moderator'
   post 'users/login'
   get "/check_user" => "users#check_user"
   get "/checkmail_user" => "users#checkmail_user"
-
 
 
 end
