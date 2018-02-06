@@ -10,6 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema.define(version: 20180206081530) do
   create_table "tweets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -22,6 +23,7 @@ ActiveRecord::Schema.define(version: 20180206081530) do
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+
     t.string "name"
     t.string "username"
     t.string "password"
@@ -32,6 +34,7 @@ ActiveRecord::Schema.define(version: 20180206081530) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "email", unique: true
     t.index ["username"], name: "username", unique: true
+
   end
 
 end

@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
+
   before_action :set_user, only: [ :edit, :update, :destroy]
+
 
   # GET /users
   # GET /users.json
@@ -16,6 +18,7 @@ class UsersController < ApplicationController
     @query = "$(\"##{params[:user_id]}\").text(\"#{params[:format]}\")"
     render js: @query
   end
+
 
 
   # GET /users/1
@@ -35,6 +38,7 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
+
     if( User.find_by username: params["user"]["username"])
 	     respond_to do |format|
          format.html {redirect_to new_user_url, notice: 'Username already exists'}
@@ -61,6 +65,7 @@ class UsersController < ApplicationController
           format.html { render :new }
           format.json { render json: @user.errors, status: :unprocessable_entity }
         end
+
       end
     end
   end
@@ -88,6 +93,7 @@ class UsersController < ApplicationController
       format.json { head :no_content }
     end
   end
+
 
   def login
     if( User.find_by username: params[:uname])
@@ -140,6 +146,7 @@ class UsersController < ApplicationController
   end
 
 
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
@@ -150,4 +157,5 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:name, :username, :password, :email, :designation)
     end
+
   end
