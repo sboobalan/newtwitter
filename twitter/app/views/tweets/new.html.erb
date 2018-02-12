@@ -13,11 +13,14 @@
 <% @twts.each do |tweet| %>
       <div id="tw">
        <span id="un"><%= tweet.username %></span><span class="dt"><%= tweet.created_at %></span><br>
-       <%= tweet.text %>
-        </div>       
+       <%= tweet.text %><br>
+       <%= image_tag tweet.image_url(:thumb).to_s%>
+        </div>
     <br>
     <% end %>
 </div>
+
+
 
 <script language="javascript">
 $(document).ready(function(){
