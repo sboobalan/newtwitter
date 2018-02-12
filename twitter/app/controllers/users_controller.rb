@@ -92,32 +92,33 @@ class UsersController < ApplicationController
   end
 
   def login
-	if( User.find_by username: params[:uname])
-		@newuser = User.find_by username: params[:uname]
-		puts @newuser,"aaaaaaaaaaaaaaa"
-		if(@newuser[:password] .eql? params[:password])
-			respond_to do |format|
-				if(@newuser[:designation]) .eql? "moderator"
-					session[:username] = params[:uname]
-					puts @newuser[:designation]
-					format.html { redirect_to new_tweet_url}
-				else
-					format.html { redirect_to new_tweet_url, flash[:notice] => "LoggedIn Successfully" }
-					session[:username] = params[:uname]
-					#format.json { render :show, status: :created, location: @newuser }
-				end
-			end
-		else
-			respond_to do |format|
-				format.html {redirect_to users_url, notice: 'Invalid password'}
-			end
-		end
-	else
+    if( User.find_by username: params[:uname])
+    	@newuser = User.find_by username: params[:uname]
+        if(@newuser[:password] .eql? params[:password])
 		respond_to do |format|
-			format.html {redirect_to users_url, notice: 'Invalid username'}
+			if(@newuser[:designation]) .eql? "moderator"
+				session[:username] = params[:uname]
+			  	puts @newuser[:designation]
+			  	format.html { redirect_to new_tweet_url}
+			elsif(@newuser[:designation]) .eql? "admin"
+			      session[:username] = params[:uname]
+			      puts @newuser[:designation]
+			      format.html { redirect_to type_change_url}
+	       		else
+	       	       	      format.html { redirect_to new_tweet_url, flash[:notice] => "LoggedIn Successfully" }
+		   	      session[:username] = params[:uname]
+			end
+        	end
+    	else
+		respond_to do |format|
+			format.html {redirect_to users_url, notice: 'Invalid password'}
+		end	
+  	end
+    else
+    		respond_to do |format|
+    			format.html {redirect_to users_url, notice: 'Invalid username'}
 		end
-	end
-
+    end
   end
   def check_user
 

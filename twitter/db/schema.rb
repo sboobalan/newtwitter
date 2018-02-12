@@ -10,12 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180212061008) do
+
+ActiveRecord::Schema.define(version: 20180206081530) do
+
 
   create_table "tweets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
     t.string "text"
-    t.string "status", default: "pending"
+    t.string "status"
     t.string "approvedby"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -26,10 +28,12 @@ ActiveRecord::Schema.define(version: 20180212061008) do
     t.string "username"
     t.string "password"
     t.string "email"
-    t.string "designation"
+
+    t.string "designation", default: "user"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "dp"
+    t.index ["email"], name: "email", unique: true
+    t.index ["username"], name: "username", unique: true
   end
 
 end

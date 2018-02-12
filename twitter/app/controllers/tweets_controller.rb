@@ -7,10 +7,18 @@ class TweetsController < ApplicationController
   end
 
   def set_stat
+
+        puts params;
         @tweet = Tweet.find(params[:tweet_id])
-        @tweet.update_attributes(:status => params["format"])
-        @tweet.update_attributes(:approvedby => session[:username])
-	@query = "$(\"##{params[:tweet_id]}\").text(\"#{params[:format]}\")"
+        if @tweet.update_attributes(:status => params[:format])
+          if @tweet.update_attributes(:approvedby => session[:username])
+            @query = "$(\"##{params[:tweet_id]}\").text(\"#{params[:format]}\")"
+          else
+              @query = "alert('Please Try again')"
+          end
+        else
+            @query = "alert('Please Try again')"
+        end
 	render js: @query
   end
 
