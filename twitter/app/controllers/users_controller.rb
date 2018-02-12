@@ -5,17 +5,16 @@ class UsersController < ApplicationController
   # GET /users.json
   def index
     @users = User.all
-
   end
 
   def type_change
-	@users = User.all.where("designation != 'admin'").paginate(:page => params[:page], :per_page => 10)
+	   @users = User.all.where("designation != 'admin'").paginate(:page => params[:page], :per_page => 10)
   end
   def status_set
-        @user = User.find(params[:user_id])
-        @user.update_attributes(:designation => params["format"])
-	@query = "$(\"##{params[:user_id]}\").text(\"#{params[:format]}\")"
-	render js: @query
+    @user = User.find(params[:user_id])
+    @user.update_attributes(:designation => params["format"])
+    @query = "$(\"##{params[:user_id]}\").text(\"#{params[:format]}\")"
+    render js: @query
   end
 
 
@@ -36,35 +35,34 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-
     if( User.find_by username: params["user"]["username"])
-	respond_to do |format|
-	  format.html {redirect_to new_user_url, notice: 'Username already exists'}
-	end
+	     respond_to do |format|
+         format.html {redirect_to new_user_url, notice: 'Username already exists'}
+	     end
     elsif(!(params["user"]["password"] .eql? params["user"]["confirm_password"]))
-	respond_to do |format|
-	  format.html {redirect_to new_user_url, notice: 'Passwords doesnot match'}
-	end
+	     respond_to do |format|
+	       format.html {redirect_to new_user_url, notice: 'Passwords doesnot match'}
+	      end
     elsif(User.find_by email: params["user"]["email"])
-	respond_to do |format|
-	  format.html {redirect_to new_user_url, notice: 'Email Id already exists'}
-	end
+	     respond_to do |format|
+	       format.html {redirect_to new_user_url, notice: 'Email Id already exists'}
+	      end
     else
-    @user = User.new(user_params)
-    @user.designation="user"
-    respond_to do |format|
-      if @user.save
-	session[:username] = params["user"]["username"]
-	puts "aaaaaaaaaaaaaaaaaaaaaa"
-	puts session[:username]
-        format.html { redirect_to users_url, notice: 'User was successfully created.' }
-        #format.json { render :show, status: :created, location: @user }
-      else
-        format.html { render :new }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+      @user = User.new(user_params)
+      @user.designation="user"
+      respond_to do |format|
+        if @user.save
+	         session[:username] = params["user"]["username"]
+	         puts "aaaaaaaaaaaaaaaaaaaaaa"
+	         puts session[:username]
+           format.html { redirect_to users_url, notice: 'User was successfully created.' }
+           #format.json { render :show, status: :created, location: @user }
+        else
+          format.html { render :new }
+          format.json { render json: @user.errors, status: :unprocessable_entity }
+        end
       end
     end
-   end
   end
 
   # PATCH/PUT /users/1
@@ -112,40 +110,33 @@ class UsersController < ApplicationController
     	else
 		respond_to do |format|
 			format.html {redirect_to users_url, notice: 'Invalid password'}
-		end	
+		end
   	end
     else
-    		respond_to do |format|
-    			format.html {redirect_to users_url, notice: 'Invalid username'}
-		end
+
+      respond_to do |format|
+        format.html {redirect_to users_url, notice: 'Invalid username'}
+      end
     end
   end
+
+
   def check_user
-
-
-      @checkuser = User.find_by username: params[:username]
-      if @checkuser .nil?
-
-	render js: ""
-
-      elsif(@checkuser[:username] .eql? params[:username])
-	render js: "username already exist"
-      end
-
+    @checkuser = User.find_by username: params[:username]
+    if @checkuser .nil?
+      render js: ""
+    elsif(@checkuser[:username] .eql? params[:username])
+      render js: "username already exist"
+    end
   end
 
   def checkmail_user
-
-
-      @checkuser = User.find_by email: params[:email]
-      if @checkuser .nil?
-
-	render js: " "
-
-      elsif(@checkuser[:email] .eql? params[:email])
-	render js: "email Id already exist"
-      end
-
+    @checkuser = User.find_by email: params[:email]
+    if @checkuser .nil?
+      render js: " "
+    elsif(@checkuser[:email] .eql? params[:email])
+      render js: "email Id already exist"
+    end
   end
 
 
@@ -159,4 +150,4 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:name, :username, :password, :email, :designation)
     end
-end
+  end
