@@ -116,7 +116,7 @@ class UsersController < ApplicationController
     end
     end
   end
-
+end
   def check_user
 
 
