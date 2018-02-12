@@ -12,11 +12,12 @@
 
 <% @twts.each do |tweet| %>
       <div id="tw">
-       <span id="un"><%= tweet.username %></span><span class="dt"><%= tweet.created_at %></span><br>
-       <%= tweet.text %><br>
-       <%= image_tag tweet.image_url(:thumb).to_s%>
-        </div>
 
+         <% @us=User.find_by username: tweet.username %>
+         <%= image_tag @us.dp_url(:thumb).to_s %>
+        <span class="un"> <%= tweet.username%></span><span class="dt"><%= tweet.created_at %></span><br><br>
+       <%= tweet.text %>
+        </div>
     <br>
     <% end %>
 </div>

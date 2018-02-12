@@ -5,13 +5,15 @@
 <div id="nw">
     <% @tweets.each do |tweet| %>
       <div id="tw">
-       <span id="un"><%= tweet.username %></span><span class="dt"><%= tweet.created_at %></span>
+        <% @us=User.find_by username: tweet.username %>
+        <%= image_tag @us.dp_url(:thumb).to_s %>
+       <span class="un"><%= tweet.username %></span><span class="dt"><%= tweet.created_at %></span>
 
 
 </span>
 	<br>
        <%= tweet.text %>
-        </div>       
+        </div>
     <br>
     <% end %>
 <br>
