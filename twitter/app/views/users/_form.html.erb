@@ -1,5 +1,5 @@
-<%= form_with(model: user, local: true, id: :form1) do |form| %>
 
+<%= form_with(model: user, local: true, id: :form1) do |form| %>
   <div class="field">
     <%= form.label :name ,'NAME' %>
     <%= form.text_field :name, id: :user_name, :required => true, :placeholder => 'Name' %>

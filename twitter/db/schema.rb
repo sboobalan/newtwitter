@@ -23,7 +23,6 @@ ActiveRecord::Schema.define(version: 20180206081530) do
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-
     t.string "name"
     t.string "username"
     t.string "password"
@@ -34,6 +33,7 @@ ActiveRecord::Schema.define(version: 20180206081530) do
     t.index ["email"], name: "email", unique: true
     t.index ["username"], name: "username", unique: true
     t.string "dp"
+
   end
 
 end

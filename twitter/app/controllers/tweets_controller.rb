@@ -7,19 +7,12 @@ class TweetsController < ApplicationController
   end
 
   def set_stat
-
         puts params;
         @tweet = Tweet.find(params[:tweet_id])
-        if @tweet.update_attributes(:status => params[:format])
-          if @tweet.update_attributes(:approvedby => session[:username])
-            @query = "$(\"##{params[:tweet_id]}\").text(\"#{params[:format]}\")"
-          else
-              @query = "alert('Please Try again')"
-          end
-        else
-            @query = "alert('Please Try again')"
-        end
-	render js: @query
+        @tweet.update_attributes(:status => params["format"])
+        @tweet.update_attributes(:approvedby => session[:username])
+	      @query = "$(\"##{params[:tweet_id]}\").text(\"#{params[:format]}\")"
+	      render js: @query
   end
 
   def indexn
@@ -143,6 +136,7 @@ class TweetsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def tweet_params
       params.require(:tweet).permit(:username, :text, :status, :approvedby, :image)
+
     end
     def twt
 	@uname = session[:username]
