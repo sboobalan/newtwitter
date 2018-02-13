@@ -43,59 +43,48 @@
 <% end %>
 
 <script language="javascript" >
- function check(){
-	console.log("check")
-        $newvar = $("#user_username").val()
+function check(){
+  console.log("check")
+  $newvar = $("#user_username").val()
 	console.log($newvar)
 	$.ajax({
-	url: "/check_user",
-	type: 'GET',
-	data: {username: $newvar },
-	success: function(data)
-	{
-		$('#status').html(data);
-		console.log(data)
-	}
-	});
-	}
+    url: "/check_user",
+    type: 'GET',
+    data: {username: $newvar },
+    success: function(data)
+    {
+      $('#status').html(data);
+		  console.log(data)
+    }
+  });
+}
 
 function checkmail(){
-	console.log("checkmail")
-        $mailvar = $("#user_email").val()
+  console.log("checkmail")
+  $mailvar = $("#user_email").val()
 	console.log($mailvar)
-	$.ajax({
-	url: "/checkmail_user",
-	type: 'GET',
-	data: {email: $mailvar },
-	success: function(data)
-	{
-		$('#statusmail').html(data);
-		console.log(data)
-	}
-	});
-	}
+  $.ajax({
+    url: "/checkmail_user",
+    type: 'GET',
+    data: {email: $mailvar },
+    success: function(data)
+    {
+      $('#statusmail').html(data);
+      console.log(data)
+    }
+  });
+}
 
 
 function checkpwd(){
-	console.log("checkpwd")
-        $pwdvar = $("#user_password").val()
+  console.log("checkpwd")
+  $pwdvar = $("#user_password").val()
 	$confpwdvar = $("#user_confirm_password").val()
 	if($pwdvar == $confpwdvar)
 		$('#statuspwd').html("");
 	else
 		$('#statuspwd').html("Incorrect password");
-
-	/*$.ajax({
-	url: "/check_user",
-	type: 'GET',
-	data: {username: $newvar },
-	success: function(data)
-	{
-		$('#status').html(data);
-		console.log(data)
-	}
-	});*/
-	}
+  }
 
 function remove(){
 	$("#status").html(" ");

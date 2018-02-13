@@ -1,22 +1,18 @@
 
 <body id="loginbod">
   <p id="notice"><%= notice %></p>
-<div id="nav"><%= button_to 'SignUp', new_user_path, :method => :get, :id => "sup" %><span id="sgn">Not a member yet?</span></div>
-<div id="log">
-<div id="p1"><h1>Login</h1><br><br></div>
-<div id="log2">
-  <br>
-<%=form_tag ('/users/login') do%>
-
- <%= text_field_tag :uname,nil, placeholder: 'Username', class: 'inp'%><br>
-
- <%= password_field_tag 'password',nil, placeholder: 'Password', class: 'inp' %><br><br>
-
-<div class="row"><br>
- <div class="column"><%= submit_tag "Login", class: "logy" %></div>
-<% end %>
-
-</div>
-</div>
-</div>
+  <div id="nav"><%= button_to 'SignUp', new_user_path, :method => :get, :id => "sup" %><span id="sgn">Not a member yet?</span></div>
+  <div id="log">
+    <div id="p1"><h1>Login</h1><br><br></div>
+    <div id="log2">
+      <br>
+      <%=form_tag ('/users/login') do%>
+      <%= text_field_tag :uname,nil, placeholder: 'Username', class: 'inp'%><br>
+      <%= password_field_tag 'password',nil, placeholder: 'Password', class: 'inp' %><br><br>
+      <div class="row"><br>
+        <div class="column"><%= submit_tag "Login", class: "logy" %></div>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </body>

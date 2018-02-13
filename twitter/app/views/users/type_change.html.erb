@@ -1,6 +1,5 @@
 <%= stylesheet_link_tag "tables.css" %>
 <p id="notice"><%= notice %></p>
-
 <h1>Tweets</h1>
 <%= link_to " Logout", users_path, class: 'lnks' %><%= link_to "Stats | ", stats_path,class: 'lnks'  %>
 <table>
@@ -9,22 +8,17 @@
       <th>Username</th>
       <th>Designation</th>
       <th colspan="4">Update Type</th>
-
     </tr>
   </thead>
-
   <tbody>
-
-     <% @users.each do |user| %>
-      <tr>
-	<td><%= user.username %></td>
-        <td><span id="<%= user.id %>"><%= user.designation %></span></td>
-        <td><%= link_to 'Moderator', user_status_set_path(user,:moderator),remote: true,id: :moderator %>
+    <% @users.each do |user| %>
+    <tr>
+      <td><%= user.username %></td>
+      <td><span id="<%= user.id %>"><%= user.designation %></span></td>
+      <td><%= link_to 'Moderator', user_status_set_path(user,:moderator),remote: true,id: :moderator %>
         &nbsp; &nbsp;<%= link_to 'User', user_status_set_path(user,:user),remote: true,id: :user %></td>
-
       </tr>
     <% end %>
-
   </tbody>
 </table>
 <%= will_paginate @users %>
