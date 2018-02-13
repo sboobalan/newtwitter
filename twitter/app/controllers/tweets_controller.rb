@@ -7,12 +7,19 @@ class TweetsController < ApplicationController
   end
 
   def set_stat
+
         puts params;
         @tweet = Tweet.find(params[:tweet_id])
-        @tweet.update_attributes(:status => params["format"])
-        @tweet.update_attributes(:approvedby => session[:username])
-	      @query = "$(\"##{params[:tweet_id]}\").text(\"#{params[:format]}\")"
-	      render js: @query
+        if @tweet.update_attributes(:status => params[:format])
+          if @tweet.update_attributes(:approvedby => session[:username])
+            @query = "$(\"##{params[:tweet_id]}\").text(\"#{params[:format]}\")"
+          else
+              @query = "alert('Please Try again')"
+          end
+        else
+            @query = "alert('Please Try again')"
+        end
+	render js: @query
   end
 
   def indexn
@@ -29,6 +36,9 @@ class TweetsController < ApplicationController
 	@uname = session[:username]
 
 	puts "aaaaaaaaaaaaaaaaaaaaaaa" +  @uname
+  	@usr = User.where("username like '" + @uname + "'")[0]
+
+
 
   end
 
@@ -136,10 +146,10 @@ class TweetsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def tweet_params
       params.require(:tweet).permit(:username, :text, :status, :approvedby, :image)
-
     end
     def twt
 	@uname = session[:username]
+  @cur_usr = User.find_by(:username => session[:username])
 	@twts = Tweet.all.where("status='active'").order(created_at: :desc, updated_at: :desc)
 	@usr=Tweet.all.where("username= ? ",@uname)[0]
 	uw=User.all.where("username= ? ",@uname)[0][:id]

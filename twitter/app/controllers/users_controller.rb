@@ -1,9 +1,11 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [ :edit, :update, :destroy]
+
   # GET /users
   # GET /users.json
   def index
     @users = User.all
+
   end
 
   def type_change
@@ -15,6 +17,8 @@ class UsersController < ApplicationController
 	@query = "$(\"##{params[:user_id]}\").text(\"#{params[:format]}\")"
 	render js: @query
   end
+
+
   # GET /users/1
   # GET /users/1.json
   def show
@@ -32,34 +36,35 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
+
     if( User.find_by username: params["user"]["username"])
-	     respond_to do |format|
-	        format.html {redirect_to new_user_url, notice: 'Username already exists'}
-	     end
+	respond_to do |format|
+	  format.html {redirect_to new_user_url, notice: 'Username already exists'}
+	end
     elsif(!(params["user"]["password"] .eql? params["user"]["confirm_password"]))
-	     respond_to do |format|
-	        format.html {redirect_to new_user_url, notice: 'Passwords doesnot match'}
-	     end
+	respond_to do |format|
+	  format.html {redirect_to new_user_url, notice: 'Passwords doesnot match'}
+	end
     elsif(User.find_by email: params["user"]["email"])
-	     respond_to do |format|
-	        format.html {redirect_to new_user_url, notice: 'Email Id already exists'}
-	       end
+	respond_to do |format|
+	  format.html {redirect_to new_user_url, notice: 'Email Id already exists'}
+	end
     else
-      @user = User.new(user_params)
-      @user.designation="user"
-      respond_to do |format|
-        if @user.save
-          session[:username] = params["user"]["username"]
-  	      puts "aaaaaaaaaaaaaaaaaaaaaa"
-  	      puts session[:username]
-          format.html { redirect_to users_url, notice: 'User was successfully created.' }
-          #format.json { render :show, status: :created, location: @user }
-        else
-          format.html { render :new }
-          format.json { render json: @user.errors, status: :unprocessable_entity }
-        end
+    @user = User.new(user_params)
+    @user.designation="user"
+    respond_to do |format|
+      if @user.save
+	session[:username] = params["user"]["username"]
+	puts "aaaaaaaaaaaaaaaaaaaaaa"
+	puts session[:username]
+        format.html { redirect_to users_url, notice: 'User was successfully created.' }
+        #format.json { render :show, status: :created, location: @user }
+      else
+        format.html { render :new }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
+   end
   end
 
   # PATCH/PUT /users/1
@@ -86,60 +91,82 @@ class UsersController < ApplicationController
     end
   end
 
+  def dpchange
+          @usr1 = User.where("username like '" + session[:username] + "'")[0]
+          @usr1.update_attributes(:dp => params[:newdp])
+          puts "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaassssssssss"
+          puts params[:newdp]
+
+  end
+
+  def passwordChange
+          @usr1 = User.where("username like '" + session[:username] + "'")[0]
+          @usr1.update_attributes(:password => params[:password])
+          render js:""
+  end
+
+  def getDp
+    @usr1 = User.where("username like '" + session[:username] + "'")[0]
+    render js: @usr1.dp.thumb.url
+  end
+
   def login
-	if( User.find_by username: params[:uname])
-
-		@newuser = User.find_by username: params[:uname]
-		puts @newuser,"aaaaaaaaaaaaaaa"
-
-		if(@newuser[:password] .eql? params[:password])
-
-			respond_to do |format|
-				if(@newuser[:designation]) .eql? "moderator"
-					session[:username] = params[:uname]
-					puts @newuser[:designation]
-					format.html { redirect_to new_tweet_url}
-				elsif(@newuser[:designation]) .eql? "admin"
-					session[:username] = params[:uname]
-					puts @newuser[:designation]
-					format.html { redirect_to type_change_url}
-				else
-					format.html { redirect_to new_tweet_url, flash[:notice] => "LoggedIn Successfully" }
-					session[:username] = params[:uname]
-					#format.json { render :show, status: :created, location: @newuser }
-				end
-			end
-		else
-			respond_to do |format|
-				format.html {redirect_to users_url, notice: 'Invalid password'}
-			end
-		end
-	#if(@newuser==null)
-
-	else
+    if( User.find_by username: params[:uname])
+    	@newuser = User.find_by username: params[:uname]
+        if(@newuser[:password] .eql? params[:password])
 		respond_to do |format|
-			format.html {redirect_to users_url, notice: 'Invalid username'}
+			if(@newuser[:designation]) .eql? "moderator"
+				session[:username] = params[:uname]
+			  	puts @newuser[:designation]
+			  	format.html { redirect_to new_tweet_url}
+			elsif(@newuser[:designation]) .eql? "admin"
+			      session[:username] = params[:uname]
+			      puts @newuser[:designation]
+			      format.html { redirect_to type_change_url}
+	       		else
+	       	       	      format.html { redirect_to new_tweet_url, flash[:notice] => "LoggedIn Successfully" }
+		   	      session[:username] = params[:uname]
+			end
+        	end
+    	else
+		respond_to do |format|
+			format.html {redirect_to users_url, notice: 'Invalid password'}
 		end
-	end
-end
-
+  	end
+    else
+    		respond_to do |format|
+    			format.html {redirect_to users_url, notice: 'Invalid username'}
+		end
+    end
+  end
   def check_user
+
+
       @checkuser = User.find_by username: params[:username]
       if @checkuser .nil?
-        render js: ""
+
+	render js: ""
+
       elsif(@checkuser[:username] .eql? params[:username])
-        render js: "username already exist"
+	render js: "username already exist"
       end
+
   end
 
   def checkmail_user
-    @checkuser = User.find_by email: params[:email]
-    if @checkuser .nil?
-      render js: " "
-    elsif(@checkuser[:email] .eql? params[:email])
-      render js: "email Id already exist"
-    end
+
+
+      @checkuser = User.find_by email: params[:email]
+      if @checkuser .nil?
+
+	render js: " "
+
+      elsif(@checkuser[:email] .eql? params[:email])
+	render js: "email Id already exist"
+      end
+
   end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -151,4 +178,4 @@ end
     def user_params
       params.require(:user).permit(:name, :username, :password, :email, :designation,:dp)
     end
-  end
+end

@@ -1,24 +1,99 @@
 <%= stylesheet_link_tag "indexn.css" %>
+<%= stylesheet_link_tag "popr.css" %>
+<%= javascript_include_tag "popr.js" %>
 <p id="notice"><%= notice %></p>
 <%= link_to "Logout", users_path, class: 'rite' %><%= link_to @uname+"| ", tweet_indexn_path(@usr),class: 'rite'  %><%= link_to 'Dashboard| ', new_tweet_path,class: 'rite'   %><% if @type .eql? "moderator"%> <%= link_to 'View Tweets|', mod_front_path,class: 'rite'%><%= link_to 'Update Tweets|', tweets_path,class: 'rite'%><% end %>
+<div class="rite"><div class="popr" data-id="menu" >Edit Profile | </div>
+<div class="popr-box" data-box-id="menu">
+	<div class="popr-item">
+    <a onclick="fun1()">Change Profile Picture</a>
+  </div>
+  <div class="popr-item">
+    <a onclick="fun2()">Change Password</a>
+  </div>
+ </div>
+</div>
 <h1>Tweets</h1>
+<div id="myModal1" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick=fun4()>&times;</span>
+          <%= image_tag @usr.dp.thumb.url,class: :dp %>
+          <%= form_tag "/users/dpchange", multipart: true do %>
+          <%= file_field_tag "newdp" %><br>
+          <%= submit_tag 'Change Profile Picture'%>
+          <% end %>
+      </div>
+</div>
+
+<div id="myModal2" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick=fun5()>&times;</span>
+          Enter New Password : <input type="text" name="password" id="password" onblur="changePass()">
+      </div>
+</div>
+
+
 <div id="nw">
-    <% @tweets.each do |tweet| %>
-      <div id="tw">
-        <% @us=User.find_by username: tweet.username %>
-        <%= image_tag @us.dp_url(:thumb).to_s %>
-       <span class="un"><%= tweet.username %></span><span class="dt"><%= tweet.created_at %></span>
-</span>
-	<br>
-       <%= tweet.text %><br>
-       <%= image_tag tweet.image_url(:thumb).to_s %>
-        </div>
-    <br>
-    <% end %>
+  <% @tweets.each do |tweet| %>
+    <div id="tw">
+      <% @us=User.find_by username: tweet.username %>
+      <%= image_tag @us.dp_url(:thumb).to_s %>
+     <span class="un"><%= tweet.username %></span><span class="dt"><%= tweet.created_at %></span>
+  </span>
+  <br>
+     <%= tweet.text %><br>
+     <%= image_tag tweet.image_url(:thumb).to_s %>
+      </div>
+  <br>
+  <% end %>
 <br>
 </div>
 <script language="javascript">
+$('.popr').popr();
+function fun1(){
+      console.log("func1 cal");
+      $('#myModal1').css("display","block");
+};
+function fun2(){
+      console.log("func2 cal");
+      $('#myModal2').css("display","block");
+};
+function fun4(){
+    $('#myModal1').css("display","none");
+    $.ajax({
+    url: "/users/getDp",
+    type: 'get',
+    data: {},
+    success: function(data)
+    {
+        $('.dp').attr('src',data);
+        alert("Profile Picture Updated");
+        location.reload();
+    }
+    });
+
+}
+function fun5(){
+    $('#myModal2').css("display","none");
+}
+
+function changePass(){
+    $password = $('#password').val();
+    $.ajax({
+    url: "/users/changepassword",
+    type: 'get',
+    data: {password: $password},
+    success: function(data)
+    {
+        alert("Password Updated");
+    }
+    });
+
+}
 $(document).ready(function(){
+
+
+
 $('.dt').each(function(idx,el){
 $v=$(el).text();
 
@@ -75,7 +150,7 @@ else
 }
 
 $(el).text($f);
-console.log($f+" "+$el);
-});
+console.log($f+" "+el);
+})
 });
 </script>
