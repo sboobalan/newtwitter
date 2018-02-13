@@ -8,12 +8,10 @@ Rails.application.routes.draw do
     get 'set_stat' => 'tweets#set_stat'
     get "indexn"
   end
-
-  get "/moderator" => 'tweets#moderator'
   resources :users do
     get "/status_set" => 'users#status_set'
   end
-
+  get "/moderator" => 'tweets#moderator'
   get "/type_change" => 'users#type_change'
   get "/stats" => "tweets#statistics"
   post 'users/login'

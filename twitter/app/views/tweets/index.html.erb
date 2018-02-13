@@ -1,5 +1,4 @@
 <p id="notice"><%= notice %></p>
-<%= stylesheet_link_tag "tables.css" %>
 <h1>Tweets</h1>
 <%= link_to "Logout", users_path, class: 'rite' %><%= link_to @uname+"| ", tweet_indexn_path(@usr),class: 'rite'  %><%= link_to 'Dashboard| ', new_tweet_path,class: 'rite'   %><% if @type .eql? "moderator"%> <%= link_to 'View Tweets|', mod_front_path,class: 'rite'%><%= link_to 'Update Tweets|', tweets_path,class: 'rite'%><% end %>
 
@@ -13,22 +12,16 @@
 
     </tr>
   </thead>
-
   <tbody>
-
-
      <% @tweets.each do |tweet| %>
       <tr >
-
-	<td><%= link_to tweet.username,tweet_indexn_url(tweet) %></td>
+        <td><%= link_to tweet.username,tweet_indexn_url(tweet) %></td>
         <td><%= tweet.text %></td>
         <td><span id="<%= tweet.id %>"><%= tweet.status %></span></td>
         <td><%= link_to 'Active', tweet_set_stat_path(tweet,:active),remote: true,id: :active %>
         &nbsp; &nbsp;<%= link_to 'Inactive', tweet_set_stat_path(tweet,:inactive),remote: true,id: :inactive %></td>
-
       </tr>
     <% end %>
-
   </tbody>
 </table>
 <%= will_paginate @tweets ,:id => 'page' %>

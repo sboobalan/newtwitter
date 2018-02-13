@@ -27,10 +27,10 @@
 </div>
 
 <div id="myModal2" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick=fun5()>&times;</span>
-          Enter New Password : <input type="text" name="password" id="password" onblur="changePass()">
-      </div>
+  <div class="modal-content">
+    <span class="close" onclick=fun5()>&times;</span>
+    Enter New Password : <input type="text" name="password" id="password" onblur="changePass()">
+  </div>
 </div>
 
 
@@ -39,120 +39,119 @@
     <div id="tw">
       <% @us=User.find_by username: tweet.username %>
       <%= image_tag @us.dp_url(:thumb).to_s %>
-     <span class="un"><%= tweet.username %></span><span class="dt"><%= tweet.created_at %></span>
-  </span>
-  <br>
-     <%= tweet.text %><br>
-     <%= image_tag tweet.image_url(:thumb).to_s %>
-      </div>
-  <br>
+      <span class="un"><%= tweet.username %></span><span class="dt"><%= tweet.created_at %></span>
+      <br>
+       <%= tweet.text %><br>
+       <%= image_tag tweet.image_url(:thumb).to_s %>
+    </div>
+    <br>
   <% end %>
+<<<<<<< 669086ffdc01b0a07a6aaf258fad572e89167460
 
 <br>
+=======
+  <br>
+>>>>>>> tweets aligned
 </div>
 <script language="javascript">
 $('.popr').popr();
 function fun1(){
-      console.log("func1 cal");
-      $('#myModal1').css("display","block");
+  console.log("func1 cal");
+  $('#myModal1').css("display","block");
 };
 function fun2(){
-      console.log("func2 cal");
-      $('#myModal2').css("display","block");
+  console.log("func2 cal");
+  $('#myModal2').css("display","block");
 };
 function fun4(){
-    $('#myModal1').css("display","none");
-    $.ajax({
+  $('#myModal1').css("display","none");
+  $.ajax({
     url: "/users/getDp",
     type: 'get',
     data: {},
     success: function(data)
     {
-        $('.dp').attr('src',data);
-        alert("Profile Picture Updated");
-        location.reload();
+      $('.dp').attr('src',data);
+      alert("Profile Picture Updated");
+      location.reload();
     }
-    });
+  });
 
 }
 function fun5(){
-    $('#myModal2').css("display","none");
+  $('#myModal2').css("display","none");
 }
 
 function changePass(){
-    $password = $('#password').val();
-    $.ajax({
+  $password = $('#password').val();
+  $.ajax({
     url: "/users/changepassword",
     type: 'get',
     data: {password: $password},
     success: function(data)
     {
-        alert("Password Updated");
+      alert("Password Updated");
     }
-    });
+  });
 
 }
 $(document).ready(function(){
+  $('.dt').each(function(idx,el){
+    $v=$(el).text();
 
-
-
-$('.dt').each(function(idx,el){
-$v=$(el).text();
-
-$y="";
-$m="";
-$f="";
-$a=$v.split(" ");
-$d2=$a[0].split("-");
-$d = String(new Date());
-$d1=$d.split(" ");
-switch(parseInt($d2[1]))
-{
-case 1:$m="Jan";break;
-case 2:$m="Feb";break;
-case 3:$m="Mar";break;
-case 4:$m="Apr";break;
-case 5:$m="May";break;
-case 6:$m="Jun";break;
-case 7:$m="Jul";break;
-case 8:$m="Aug";break;
-case 9:$m="Sept";break;
-case 10:$m="Oct";break;
-case 11:$m="Nov";break;
-case 12:$m="Dec";break;
-}
-if($d1[3]==$d2[0])
-{
-$y="";
-}
-else
-{
-$y=$d2[0];
-}
-if((parseInt($d1[2])-parseInt($d2[2]))==0)
-{
-	$t1=$a[1].split(":");
-	$t2=$d1[4].split(":");
-	if((parseInt($t2[0])-parseInt($t1[0]))==0)
-	{
-	$f=String(parseInt($t2[1])-parseInt($t1[1]))+" min";
-	}
-	else
-	{
-	$f=String(parseInt($t2[0])-parseInt($t1[0]))+" hr";
-	}
-}
-else if((parseInt($d1[2])-parseInt($d2[2]))==1)
-{
-	$f="1d";
-}
-else
-{
-	$f=$m+" "+$d2[2]+" "+$y;
-}
-
-$(el).text($f);
-console.log($f+" "+el);
-})
+    $y="";
+    $m="";
+    $f="";
+    $a=$v.split(" ");
+    $d2=$a[0].split("-");
+    $d = String(new Date());
+    $d1=$d.split(" ");
+    switch(parseInt($d2[1]))
+    {
+      case 1:$m="Jan";break;
+      case 2:$m="Feb";break;
+      case 3:$m="Mar";break;
+      case 4:$m="Apr";break;
+      case 5:$m="May";break;
+      case 6:$m="Jun";break;
+      case 7:$m="Jul";break;
+      case 8:$m="Aug";break;
+      case 9:$m="Sept";break;
+      case 10:$m="Oct";break;
+      case 11:$m="Nov";break;
+      case 12:$m="Dec";break;
+    }
+    if($d1[3]==$d2[0])
+    {
+      $y="";
+    }
+    else
+    {
+      $y=$d2[0];
+    }
+    if((parseInt($d1[2])-parseInt($d2[2]))==0)
+    {
+    	$t1=$a[1].split(":");
+    	$t2=$d1[4].split(":");
+    	if((parseInt($t2[0])-parseInt($t1[0]))==0)
+    	{
+    	   $f=String(parseInt($t2[1])-parseInt($t1[1]))+" min";
+    	}
+    	else
+    	{
+    	   $f=String(parseInt($t2[0])-parseInt($t1[0]))+" hr";
+    	}
+    }
+    else if((parseInt($d1[2])-parseInt($d2[2]))==1)
+    {
+    	$f="1d";
+    }
+    else
+    {
+    	$f=$m+" "+$d2[2]+" "+$y;
+    }
+    $(el).text($f);
+    console.log($f+" "+el);
+  });
 });
 </script>
