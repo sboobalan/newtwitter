@@ -8,7 +8,6 @@ http://www.tipue.com/popr
 
 
 (function($) {
-
      $.fn.popr = function(options) {
           console.log("Function called");
           var set = $.extend( {
@@ -17,12 +16,9 @@ http://www.tipue.com/popr
                'mode'         : 'bottom'
 
           }, options);
-
           return this.each(function() {
-
                var popr_cont = '.popr_container_' + set.mode;
                var popr_show = true;
-
                $(this).click(function(event)
                {
                     $('.popr_container_top').remove();
@@ -71,8 +67,6 @@ http://www.tipue.com/popr
                     $('.popr_container_bottom').remove();
                     popr_show = true;
                });
-
           });
      };
-
 })(jQuery);
